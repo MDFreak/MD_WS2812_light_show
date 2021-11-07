@@ -229,8 +229,8 @@
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
-              #define PIN_WS2812_LD1     17
-              #define PIN_WS2812_LD2     16
+              #define PIN_WS2812_LD1     16
+              #define PIN_WS2812_LD2     17
                 //#define PIN_WS2812_D3  x
                 //#define PIN_WS2812_D4  x
             #endif
@@ -536,7 +536,7 @@
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
-                #define LEDS_2812_L1   300
+                #define LEDS_2812_L1   599
                 #define BRIGHT_2812_L1 5
                 #define TYPE_2812_L1   WS2812B
                 #define COLORD_2812_L1 GRB

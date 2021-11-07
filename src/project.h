@@ -33,7 +33,7 @@
       #define USE_FAN_PWM           OFF
       #define USE_OUT_FREQ_PWM      OFF
       #define USE_WS2812_MATRIX_OUT OFF   // [0, 1..4]
-      #define USE_WS2812_LINE_OUT   2     // [0, 1..4]
+      #define USE_WS2812_LINE_OUT   1     // [0, 1..4]
     // --- user input components
       #define USE_TOUCHSCREEN_SPI   OFF
       #define USE_TOUCHSCREEN_IO    OFF

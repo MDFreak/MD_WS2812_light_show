@@ -94,18 +94,21 @@
 
     #if (USE_WS2812_LINE_OUT > OFF)
         msTimer         ws2812LT    = msTimer(UPD_2812_L1_MS);
-        unsigned long   ws2812L_alt = 0;
-        uint32_t        ws2812L_cnt = 0;
-        uint32_t        ws2812L_v   = 0;
         #ifdef USE_FAST_LED
             //extern CRGBPalette16 myRedWhiteBluePalette;
             //extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
-            uint16_t idx2812L1 = 0;
+            unsigned long ws2812L1_alt = 0;
+            uint32_t      ws2812L1_cnt = 0;
+            uint32_t      ws2812L1_v   = 0;
+            uint16_t      idx2812L1    = 0;
             CRGBPalette16 curPalette1;
             TBlendType    curBlending1;
             CRGB leds1[LEDS_2812_L1];
             #if (USE_WS2812_LINE_OUT > 1)
-                uint16_t idx2812L2 = 0;
+                unsigned long ws2812L2_alt = 0;
+                uint32_t      ws2812L2_cnt = 0;
+                uint32_t      ws2812L2_v   = 0;
+                uint16_t      idx2812L2    = 0;
                 CRGBPalette16 curPalette2;
                 TBlendType    curBlending2;
                 CRGB leds2[LEDS_2812_L2];
@@ -981,10 +984,19 @@
                 //SOUT(" FASTLED ... ");
                 //ChangePalettePeriodically(0);
                 idx2812L1 = idx2812L1 + 1; /* motion speed */
-                ws2812L_cnt++;
-                      //SOUT(micros()); SOUT(" "); SOUT(ws2812L_cnt);
-                //FillLEDsFromPaletteColors(0, idx2812L1);
+                ws2812L1_cnt++;
+                FillLEDsFromPaletteColors(0, idx2812L1);
+                      //SOUT(micros()); SOUT(" "); SOUT(ws2812L1_cnt);
                       //SOUT(" show ... ");
+                #if (USE_WS2812_LINE_OUT > 1)
+                      //idx2812L2 = idx2812L2 + 1; /* motion speed */
+                      //ws2812L2_cnt++;
+                      //FillLEDsFromPaletteColors(1, idx2812L2);
+                    #if (USE_WS2812_LINE_OUT > 2)
+                        #if (USE_WS2812_LINE_OUT > 3)
+                          #endif
+                      #endif
+                  #endif
                 FastLED.show();
                       //SOUTLN(" ready ");
               #else
@@ -1203,14 +1215,14 @@
                     //outStr = "LED ";
                     outStr = "";
                         //outStr += (String) ws2812_cnt; outStr += " ";
-                    ws2812L_v = millis() - ws2812L_alt; // dispT.getTout();
-                    ws2812L_alt = millis();
-                    if (ws2812L_cnt > 0)
+                    ws2812L1_v = millis() - ws2812L1_alt; // dispT.getTout();
+                    ws2812L1_alt = millis();
+                    if (ws2812L1_cnt > 0)
                       {
-                        ws2812L_v = ws2812L_v / ws2812L_cnt;
-                        ws2812L_cnt = 0;
+                        ws2812L1_v = ws2812L1_v / ws2812L1_cnt;
+                        ws2812L1_cnt = 0;
                       }
-                    outStr += (String) ws2812L_v;
+                    outStr += (String) ws2812L1_v;
                     outStr += ("ms");
                           //SOUT((uint32_t) millis()); SOUT(" ");
                               //SOUT(outStr); SOUT(" ");
