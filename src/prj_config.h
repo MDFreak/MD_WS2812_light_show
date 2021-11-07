@@ -169,28 +169,73 @@
 
     #if !(BOARD ^ MC_ESP32_D1_MINI)
       // --- system
-      // --- network
-      // --- user output
-        // --- LEDs
-        // --- display
-        // --- acustic output
-      // --- user input
-      // --- sensors
-      // --- memories
+        #define SER_BAUDRATE ESP_SER_BAUD
+        // --- network
+        // --- user output
+          // --- LEDs
+          // --- display
+          // --- acustic output
+        // --- user input
+        // --- sensors
+        // --- memories
       // --- pins, connections
         // --- system
-          #if (USE_LED_BLINK_OUT > 0)
-              #define PIN_BOARD_LED   1
+          #if (USE_LED_BLINK_OUT > OFF)
+              #define PIN_BOARD_LED 2
+            #endif
+        // --- user input
+          #if (USE_CTRL_POTI_ADC > OFF)
+              #define PIN_INP_POTI_1 35   // ADC 1-5
             #endif
 
-        // --- user output
-          #if (USE_TRAFFIC_LED_OUT > 0)
-              // traffic lamp
-              #define PIN_TL_RED    26
-              #define PIN_TL_YELLOW 25
-              #define PIN_TL_GREEN  33
+          #if (USE_CTRL_SW_INP > OFF)
+              #define PIN_INP_SW_1  32   // INPUT_PULLUP
             #endif
-          #if (USE_TFT > 0)
+
+          #if (USE_FAN_CNT_INP > OFF)
+              #define PIN_CNT_FAN_1 36
+              #define PIN_CNT_FAN_2 34
+            #endif
+        #if (USE_PWM_INP > OFF)
+              #define PIN_PWM_INP_1 PIN_CNT_FAN_2
+          #endif
+        // --- user output
+          #if (USE_TRAFFIC_LED_OUT > OFF)
+              #define PIN_TL_RED    26   // RGB red
+              #define PIN_TL_YELLOW 25   // RGB green
+              #define PIN_TL_GREEN  33   // RGB blue
+            #endif
+
+          #if (USE_RGBLED_PWM > OFF)
+              #define PIN_RGB_RED   33 //26   // RGB red
+              #define PIN_RGB_GREEN 26   // RGB blue
+              #define PIN_RGB_BLUE  14 //33   // RGB blue
+            #endif
+
+          #if (USE_FAN_PWM > OFF)
+              #define PIN_PWM_FAN_1 0
+              #define PIN_PWM_FAN_2 4
+            #endif
+
+          #if (USE_OUT_FREQ_PWM > OFF)
+              #define PIN_FREQ_1    26
+            #endif
+
+          #if (USE_WS2812_MATRIX_OUT > OFF)
+              #define PIN_WS2812_MD1  16
+                //#define PIN_WS2812_MD2  x
+                //#define PIN_WS2812_MD3  x
+                //#define PIN_WS2812_MD4  x
+            #endif
+
+          #if (USE_WS2812_LINE_OUT > OFF)
+              #define PIN_WS2812_LD1     17
+                //#define PIN_WS2812_D2  x
+                //#define PIN_WS2812_D3  x
+                //#define PIN_WS2812_D4  x
+            #endif
+
+          #if (USE_TFT > OFF)
               #if !(DISP_TFT ^ MC_UO_TFT1602_GPIO_RO)
                   #define LCD_BL      5    // D10/SS  ARDUINO
                   #define LCD_EN      13   // D9
@@ -201,6 +246,7 @@
                   #define LCD_D4      17   // D4
                 #endif
             #endif
+
           #if (USE_BUZZER_PWM > OFF)
               #define PIN_BUZZ      32
             #endif
@@ -208,16 +254,65 @@
           #if (USE_DS18B20_1W_IO > OFF)
               #define DS_ONEWIRE_PIN 27
             #endif
+          #if (USE_TYPE_K_SPI > OFF)
+              #define TYPEK_DATA_PIN 19   // SPI MISO
+              #define TYPEK_CLK_PIN  18   // SPI CLK
+              #define TYPEK1_CS_PIN  16
+              #define TYPEK2_CS_PIN  17
+            #endif
           #if (USE_MQ135_GAS_ADC > OFF)
               #define PIN_MQ135     36
             #endif
 
-        // --- PWM
-          // --- channels
-            #define PWM_BUZZ          0
-            #define PWM_TL_GREEN      1
-            #define PWM_TL_YELLOW     2
-            #define PWM_TL_RED        3
+        // --- PWM channels   0..15
+          #if (USE_PWM_OUT > OFF)
+              #if (USE_AOUT > OFF)
+                  #if (USE_BUZZER_PWM > OFF)
+                      #define PWM_BUZZ  0
+                    #endif
+                #endif
+
+              #if (USE_TRAFFIC_LED_OUT > OFF)
+                  #define PWM_TL_GREEN  1
+                  #define PWM_TL_YELLOW 2
+                  #define PWM_TL_RED    3
+                #endif
+
+              #if (USE_RGBLED_PWM > OFF)
+                  #define PWM_RGB_RED   1
+                  #define PWM_RGB_GREEN 2
+                  #define PWM_RGB_BLUE  3
+                #endif
+
+              #if (USE_FAN_PWM > OFF)
+                  #define PWM_FAN_1     4
+                  #define PWM_FAN_2     5
+                #endif
+
+              #if (USE_OUT_FREQ_PWM > OFF)
+                  #define PWM_FREQ_1    6
+                #endif
+            #endif
+
+        // --- ADC channels
+          #if (USE_ADC1 > 0)
+              #if (USE_MQ135_GAS_ADC > OFF)
+                  #define ADC_MQ135       3   // ADC 1-3
+                #endif
+
+              #if (USE_CTRL_POTI_ADC > OFF)
+                  #define ADC_INP_POTI_1  5   // ADC 1-5
+                #endif
+
+            #endif
+
+        // --- counter channels  0..7
+          #if (USE_CNT_INP > OFF)
+              #if (USE_FAN_CNT_INP > OFF)
+                  #define CNT_FAN_1     0
+                  #define CNT_FAN_2     1
+                #endif
+            #endif
 
         // --- I2C
           // --- board connection
@@ -229,6 +324,7 @@
                 #define PIN_I2C2_SDA  25
                 #define PIN_I2C2_SCL  26
               #endif
+
       #endif
 
     #if !(BOARD ^ MC_ESP32_D1_R32)
@@ -436,17 +532,17 @@
                 #define TYPE_2812_L1   WS2812
                 #define COLORD_2812_L1 GRB
             #else
-            #define UPD_2812_L1_MS 1
-            #define LEDS_2812_L1   300
-            #define BRIGHT_2812_L1 5
-            #define TYPE_2812_L1   WS2812B
-            #define COLORD_2812_L1 NEO_GRB
-            #define COLPIX_2812_L1 300
-            #define ROWPIX_2812_L1 1
-            //#define COLPIX_2812_T1 8
-            //#define ROWPIX_2812_T1 8
-            #define COLTIL_2812_L1 4
-            #define ROWTIL_2812_L1 1
+                #define UPD_2812_L1_MS 1
+                #define LEDS_2812_L1   300
+                #define BRIGHT_2812_L1 5
+                #define TYPE_2812_L1   WS2812B
+                #define COLORD_2812_L1 NEO_GRB
+                #define COLPIX_2812_L1 300
+                #define ROWPIX_2812_L1 1
+                //#define COLPIX_2812_T1 8
+                //#define ROWPIX_2812_T1 8
+                #define COLTIL_2812_L1 4
+                #define ROWTIL_2812_L1 1
               #endif
             #if (USE_WS2812_LINE_OUT > 1)
                 #define LEDS_2812_L1   30

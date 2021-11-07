@@ -21,13 +21,13 @@
                              #endif
                              ;
     TwoWire i2c1 = TwoWire(0);
-    // cycletime measurement
+      // cycletime measurement
     static uint64_t anzUsCycles = 0ul;
     static uint64_t usLast      = 0ul;
     static uint64_t usPerCycle  = 0ul;
-    //static uint64_t anzMsCycles = 0;
-    //static uint64_t msLast = 0;
-    //static uint64_t msPerCycle = 0;
+      //static uint64_t anzMsCycles = 0;
+      //static uint64_t msLast = 0;
+      //static uint64_t msPerCycle = 0;
 
     #if ( USE_I2C > 1 )
         TwoWire i2c2 = TwoWire(1);
@@ -274,7 +274,7 @@
             #if !(OLED1_DRV ^ OLED_DRV_1106)
                 md_oled_1106 oled1 = md_oled_1106((uint8_t) I2C_ADDR_OLED1, (uint8_t) I2C_SDA_OLED1,
                                         (uint8_t) I2C_SCL_OLED1, (OLEDDISPLAY_GEOMETRY) OLED1_GEO);
-              #else
+            #else
                 md_oled_1306 oled1 = md_oled_1306((uint8_t) I2C_ADDR_OLED1, (uint8_t) I2C_SDA_OLED1,
                                         (uint8_t) I2C_SCL_OLED1, (OLEDDISPLAY_GEOMETRY) OLED1_GEO);
               #endif
