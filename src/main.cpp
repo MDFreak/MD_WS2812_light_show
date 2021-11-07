@@ -382,8 +382,9 @@
 
           #if (USE_LED_BLINK_OUT > 0)
               pinMode(PIN_BOARD_LED, OUTPUT);
+
               ledcSetup(PIN_BOARD_LED, BLINKPWM_FREQ, BLINKPWM_RES);
-              ledcWrite(PIN_BOARD_LED, 0);
+              ledcWrite(PIN_BOARD_LED, 255);
               //digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
             #endif
 
@@ -1238,7 +1239,8 @@
                 //SOUT("disp end "); SOUT(" "); SOUTLN(millis());
                 if (SYS_LED_ON == ON) { SYS_LED_ON = OFF; }
                 else                  { SYS_LED_ON = ON ; }
-                digitalWrite(PIN_BOARD_LED, SYS_LED_ON * 10);
+                ledcWrite(PIN_BOARD_LED, SYS_LED_ON * 100);
+                //digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
 
                 oledIdx = 0;
                 dispT.startT();
