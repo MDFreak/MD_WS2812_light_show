@@ -33,9 +33,9 @@
         TwoWire i2c2 = TwoWire(1);
       #endif
 
-    #if ( USE_COL16_BLINK_OUT > 0 )
+    #if ( USE_LED_BLINK_OUT > 0 )
         msTimer ledT = msTimer(BLINKTIME_MS);
-        bool COL16_ON = FALSE;
+        bool SYS_LED_ON = FALSE;
       #endif
 
     #if ( USE_DISP > 0 )
@@ -380,10 +380,10 @@
                 #endif
             #endif
 
-          #if (USE_COL16_BLINK_OUT > 0)
+          #if (USE_LED_BLINK_OUT > 0)
               pinMode(PIN_BOARD_LED, OUTPUT);
               digitalWrite(PIN_BOARD_LED, ON);
-              COL16_ON = ON;
+              SYS_LED_ON = ON;
             #endif
 
       // --- user output
@@ -676,7 +676,7 @@
           #if (DEBUG_MODE >= CFG_DEBUG_STARTUP)
               #if (USE_COL16_BLINK_OUT > 0)
                   digitalWrite(PIN_BOARD_LED, OFF);
-                  COL16_ON = OFF;
+                  SYS_LED_ON = OFF;
                 #endif
               SOUTLN();
               SOUT("... end setup -- error="); SOUTLN(md_error);
@@ -701,6 +701,7 @@
           firstrun = false;
         }
       anzUsCycles++;
+
       //uint16_t t_x = 0, t_y = 0; // To store the touch coordinates
       #if (USE_WIFI > OFF)  // restart WIFI if offline
           if(wifiT.TOut())
@@ -1094,9 +1095,9 @@
               {
               case 1: // system output
                   usPerCycle = (millis() - usLast) / anzUsCycles;
-                  SOUT(usLast); SOUT(" "); SOUT(micros()); SOUT(" "); SOUTLN(usPerCycle);
+                    //SOUT(usLast); SOUT(" "); SOUT(micros()); SOUT(" "); SOUTLN(usPerCycle);
                   usLast      = millis();
-                  //SOUTLN(); SOUT(usLast); SOUT(" ms/cyc "); SOUT((uint32_t) usPerCycle); SOUT(" ");
+                    //SOUTLN(); SOUT(usLast); SOUT(" ms/cyc "); SOUT((uint32_t) usPerCycle); SOUT(" ");
                   anzUsCycles = 0ul;
                 break;
 
@@ -1249,15 +1250,15 @@
         if (ledT.TOut())    // handle touch output
           {
             ledT.startT();
-            if (COL16_ON == TRUE)
+            if (SYS_LED_ON == TRUE)
                 {
                   digitalWrite(PIN_BOARD_LED, OFF);
-                  COL16_ON = OFF;
+                  SYS_LED_ON = OFF;
                 }
               else
                 {
                   digitalWrite(PIN_BOARD_LED, ON);
-                  COL16_ON = ON;
+                  SYS_LED_ON = ON;
                 }
           }
         #endif
@@ -1447,17 +1448,17 @@
                   if( lastSecond != secondHand)
                     {
                       lastSecond = secondHand;
-                      if( secondHand ==  0)  { currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND; }
-                      if( secondHand == 10)  { currentPalette = RainbowStripeColors_p;   currentBlending = NOBLEND;  }
-                      if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; }
-                      if( secondHand == 20)  { SetupPurpleAndGreenPalette();             currentBlending = LINEARBLEND; }
-                      if( secondHand == 25)  { SetupTotallyRandomPalette();              currentBlending = LINEARBLEND; }
-                      if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       currentBlending = NOBLEND; }
-                      if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette();       currentBlending = LINEARBLEND; }
-                      if( secondHand == 40)  { currentPalette = CloudColors_p;           currentBlending = LINEARBLEND; }
-                      if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; }
-                      if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;  }
-                      if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; }
+                      //if( secondHand ==  0)  { currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND; SOUTLN("RainbowColors_p"); }
+                      if( secondHand == 10)  { currentPalette = RainbowStripeColors_p;   currentBlending = NOBLEND;     SOUTLN("RainbowStripeColors_p"); }
+                      if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; SOUTLN("RainbowStripeColors_p"); }
+                      //if( secondHand == 20)  { SetupPurpleAndGreenPalette();             currentBlending = LINEARBLEND; SOUTLN("PurpleAndGreenPalette"); }
+                      //if( secondHand == 25)  { SetupTotallyRandomPalette();              currentBlending = LINEARBLEND; SOUTLN("TotallyRandomPalette"); }
+                      //if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       currentBlending = NOBLEND;     SOUTLN("BlackAndWhiteStripedPalette"); }
+                      //if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette();       currentBlending = LINEARBLEND; SOUTLN("BlackAndWhiteStripedPalette"); }
+                      //if( secondHand == 40)  { currentPalette = CloudColors_p;           currentBlending = LINEARBLEND; SOUTLN("CloudColors_p"); }
+                      //if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; SOUTLN("PartyColors_p"); }
+                      //if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;     SOUTLN("myRedWhiteBluePalette_p"); }
+                      //if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; SOUTLN("myRedWhiteBluePalette_p"); }
                     }
                 }
 

@@ -533,7 +533,7 @@
 
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
-                #define UPD_2812_L1_MS 1
+                #define UPD_2812_L1_MS 10
                 #define LEDS_2812_L1   300
                 #define BRIGHT_2812_L1 5
                 #define TYPE_2812_L1   WS2812B
