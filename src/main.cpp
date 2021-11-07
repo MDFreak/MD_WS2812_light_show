@@ -98,14 +98,16 @@
         uint32_t        ws2812L_cnt = 0;
         uint32_t        ws2812L_v   = 0;
         #ifdef USE_FAST_LED
-            CRGBPalette16 currentPalette;
-            TBlendType    currentBlending;
             //extern CRGBPalette16 myRedWhiteBluePalette;
             //extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
             uint16_t idx2812L1 = 0;
+            CRGBPalette16 curPalette1;
+            TBlendType    curBlending1;
             CRGB leds1[LEDS_2812_L1];
             #if (USE_WS2812_LINE_OUT > 1)
                 uint16_t idx2812L2 = 0;
+                CRGBPalette16 curPalette2;
+                TBlendType    curBlending2;
                 CRGB leds2[LEDS_2812_L2];
                 #if (USE_WS2812_LINE_OUT > 2)
                     uint16_t idx2812L3 = 0;
@@ -456,23 +458,23 @@
               #ifdef USE_FAST_LED
                   FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_LD1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
                   FastLED.setBrightness(BRIGHT_2812_L1);
-                  currentPalette = RainbowColors_p;
-                  currentBlending = LINEARBLEND;
+                  curPalette1 = RainbowStripeColors_p;
+                  curBlending1 = NOBLEND;
                   #if (USE_WS2812_LINE_OUT > 1)
                         FastLED.addLeds<TYPE_2812_L2, PIN_WS2812_LD2, COLORD_2812_L2>(leds2, LEDS_2812_L2).setCorrection(TypicalLEDStrip);
-                        FastLED.setBrightness(BRIGHT_2812_L1);
-                        currentPalette = RainbowColors_p;
-                        currentBlending = LINEARBLEND;
+                        FastLED.setBrightness(BRIGHT_2812_L2);
+                        curPalette2  = RainbowStripeColors_p;
+                        curBlending2 = NOBLEND;
                       #if (USE_WS2812_LINE_OUT > 2)
                             FastLED.addLeds<TYPE_2812_L3, PIN_WS2812_LD3, COLORD_2812_L3>(leds3, LEDS_2812_L3).setCorrection(TypicalLEDStrip);
                             FastLED.setBrightness(BRIGHT_2812_L3);
-                            currentPalette = RainbowColors_p;
-                            currentBlending = LINEARBLEND;
+                            curPalette1 = RainbowColors_p;
+                            curBlending = LINEARBLEND;
                           #if (USE_WS2812_LINE_OUT > 3)
                               FastLED.addLeds<TYPE_2812_L4, PIN_WS2812_LD4, COLORD_2812_L4>(leds3, LEDS_2812_L4).setCorrection(TypicalLEDStrip);
                               FastLED.setBrightness(BRIGHT_2812_L4);
-                              currentPalette = RainbowColors_p;
-                              currentBlending = LINEARBLEND;
+                              curPalette1 = RainbowColors_p;
+                              curBlending = LINEARBLEND;
                             #endif
                         #endif
                     #endif
@@ -976,19 +978,15 @@
 
           #if (USE_WS2812_LINE_OUT > OFF)
               #ifdef USE_FAST_LED
-                  //if (ws2812LT.TOut())
-                  //  {
-                  //    ws2812LT.startT();
-                      //SOUT(" FASTLED ... ");
-                      ChangePalettePeriodically();
-                      idx2812L1 = idx2812L1 + 1; /* motion speed */
-                      ws2812L_cnt++;
-                            //SOUT(micros()); SOUT(" "); SOUT(ws2812L_cnt);
-                      FillLEDsFromPaletteColors( idx2812L1);
-                            //SOUT(" show ... ");
-                      FastLED.show();
-                            //SOUTLN(" ready ");
-                  //  }
+                //SOUT(" FASTLED ... ");
+                //ChangePalettePeriodically(0);
+                idx2812L1 = idx2812L1 + 1; /* motion speed */
+                ws2812L_cnt++;
+                      //SOUT(micros()); SOUT(" "); SOUT(ws2812L_cnt);
+                //FillLEDsFromPaletteColors(0, idx2812L1);
+                      //SOUT(" show ... ");
+                FastLED.show();
+                      //SOUTLN(" ready ");
               #else
                   if (ws2812LT.TOut())
                     {
@@ -1454,12 +1452,21 @@
     // --- WS2812 lines
       #if (USE_WS2812_LINE_OUT > OFF)
           #ifdef USE_FAST_LED
-              void FillLEDsFromPaletteColors( uint8_t colorIndex)
+              void FillLEDsFromPaletteColors(uint8_t lineNo, uint8_t colorIndex)
                 {
                   uint8_t brightness = 255;
                   for( int i = 0; i < LEDS_2812_L1; i++)
                     {
-                      leds1[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
+                      leds1[i] = ColorFromPalette( curPalette1, colorIndex, brightness, curBlending1);
+                      #if (USE_WS2812_LINE_OUT > 1)
+                          leds2[i] = ColorFromPalette( curPalette2, colorIndex, brightness, curBlending2);
+                          #if (USE_WS2812_LINE_OUT > 2)
+                              leds3[i] = ColorFromPalette( curPalette3, colorIndex, brightness, curBlending3);
+                              #if (USE_WS2812_LINE_OUT > 3)
+                                  leds4[i] = ColorFromPalette( curPalette4, colorIndex, brightness, curBlending4);
+                                #endif
+                            #endif
+                        #endif
                       colorIndex += 3;
                     }
               }
@@ -1472,7 +1479,7 @@
                 // code that creates color palettes on the fly.  All are shown here.
                 */
 
-              void ChangePalettePeriodically()
+              void ChangePalettePeriodically(uint8_t lineNo)
                 {
                   uint8_t secondHand = (millis() / 1000) % 60;
                   static uint8_t lastSecond = 99;
@@ -1480,109 +1487,120 @@
                   if( lastSecond != secondHand)
                     {
                       lastSecond = secondHand;
-                      //if( secondHand ==  0)  { currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND; SOUTLN("RainbowColors_p"); }
-                      if( secondHand == 10)  { currentPalette = RainbowStripeColors_p;   currentBlending = NOBLEND;     SOUTLN("RainbowStripeColors_p"); }
-                      //if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; SOUTLN("RainbowStripeColors_p"); }
-                      //if( secondHand == 20)  { SetupPurpleAndGreenPalette();             currentBlending = LINEARBLEND; SOUTLN("PurpleAndGreenPalette"); }
-                      //if( secondHand == 25)  { SetupTotallyRandomPalette();              currentBlending = LINEARBLEND; SOUTLN("TotallyRandomPalette"); }
-                      //if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       currentBlending = NOBLEND;     SOUTLN("BlackAndWhiteStripedPalette"); }
-                      //if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette();       currentBlending = LINEARBLEND; SOUTLN("BlackAndWhiteStripedPalette"); }
-                      //if( secondHand == 40)  { currentPalette = CloudColors_p;           currentBlending = LINEARBLEND; SOUTLN("CloudColors_p"); }
-                      //if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; SOUTLN("PartyColors_p"); }
-                      //if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;     SOUTLN("myRedWhiteBluePalette_p"); }
-                      //if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; SOUTLN("myRedWhiteBluePalette_p"); }
+                      //if( secondHand ==  0)  { curPalette1 = RainbowColors_p;         curBlending = LINEARBLEND; SOUTLN("RainbowColors_p"); }
+                      curPalette1 = RainbowStripeColors_p;
+                      curBlending1 = NOBLEND;
+                      #if (USE_WS2812_LINE_OUT > 1)
+                          curPalette2 = RainbowStripeColors_p;
+                          curBlending2 = NOBLEND;
+                          #if (USE_WS2812_LINE_OUT > 2)
+                              #if (USE_WS2812_LINE_OUT > 3)
+                                #endif
+                            #endif
+                        #endif
+                          //if( secondHand == 15)  { curPalette1 = RainbowStripeColors_p;   curBlending = LINEARBLEND; SOUTLN("RainbowStripeColors_p"); }
+                          //if( secondHand == 20)  { SetupPurpleAndGreenPalette();             curBlending = LINEARBLEND; SOUTLN("PurpleAndGreenPalette"); }
+                          //if( secondHand == 25)  { SetupTotallyRandomPalette();              curBlending = LINEARBLEND; SOUTLN("TotallyRandomPalette"); }
+                          //if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       curBlending = NOBLEND;     SOUTLN("BlackAndWhiteStripedPalette"); }
+                          //if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette();       curBlending = LINEARBLEND; SOUTLN("BlackAndWhiteStripedPalette"); }
+                          //if( secondHand == 40)  { curPalette1 = CloudColors_p;           curBlending = LINEARBLEND; SOUTLN("CloudColors_p"); }
+                          //if( secondHand == 45)  { curPalette1 = PartyColors_p;           curBlending = LINEARBLEND; SOUTLN("PartyColors_p"); }
+                          //if( secondHand == 50)  { curPalette1 = myRedWhiteBluePalette_p; curBlending = NOBLEND;     SOUTLN("myRedWhiteBluePalette_p"); }
+                          //if( secondHand == 55)  { curPalette1 = myRedWhiteBluePalette_p; curBlending = LINEARBLEND; SOUTLN("myRedWhiteBluePalette_p"); }
                     }
                 }
 
-              // This function fills the palette with totally random colors.
-              void SetupTotallyRandomPalette()
-                {
-                  for( int i = 0; i < 16; i++)
+              #ifdef XXXX
+                  // This function fills the palette with totally random colors.
+                  void SetupTotallyRandomPalette()
                     {
-                      currentPalette[i] = CHSV( random8(), 255, random8());
+                      for( int i = 0; i < 16; i++)
+                        {
+                          curPalette1[i] = CHSV( random8(), 255, random8());
+                        }
                     }
-                }
 
-              /* This function sets up a palette of black and white stripes,
-                // using code.  Since the palette is effectively an array of
-                // sixteen CRGB colors, the various fill_* functions can be used
-                // to set them up.
-                */
-              void SetupBlackAndWhiteStripedPalette()
-                {
-                  // 'black out' all 16 palette entries...
-                  fill_solid( currentPalette, 16, CRGB::Black);
-                  // and set every fourth one to white.
-                  currentPalette[0] = CRGB::White;
-                  currentPalette[4] = CRGB::White;
-                  currentPalette[8] = CRGB::White;
-                  currentPalette[12] = CRGB::White;
+                  /* This function sets up a palette of black and white stripes,
+                    // using code.  Since the palette is effectively an array of
+                    // sixteen CRGB colors, the various fill_* functions can be used
+                    // to set them up.
+                    */
+                  void SetupBlackAndWhiteStripedPalette()
+                    {
+                      // 'black out' all 16 palette entries...
+                      fill_solid( curPalette1, 16, CRGB::Black);
+                      // and set every fourth one to white.
+                      curPalette1[0] = CRGB::White;
+                      curPalette1[4] = CRGB::White;
+                      curPalette1[8] = CRGB::White;
+                      curPalette1[12] = CRGB::White;
 
-                }
+                    }
 
-              // This function sets up a palette of purple and green stripes.
-              void SetupPurpleAndGreenPalette()
-                {
-                  CRGB purple = CHSV( HUE_PURPLE, 255, 255);
-                  CRGB green  = CHSV( HUE_GREEN, 255, 255);
-                  CRGB black  = CRGB::Black;
+                  // This function sets up a palette of purple and green stripes.
+                  void SetupPurpleAndGreenPalette()
+                    {
+                      CRGB purple = CHSV( HUE_PURPLE, 255, 255);
+                      CRGB green  = CHSV( HUE_GREEN, 255, 255);
+                      CRGB black  = CRGB::Black;
 
-                  currentPalette = CRGBPalette16(
-                                                 green,  green,  black,  black,
-                                                 purple, purple, black,  black,
-                                                 green,  green,  black,  black,
-                                                 purple, purple, black,  black );
-                }
+                      curPalette1 = CRGBPalette16(
+                                                     green,  green,  black,  black,
+                                                     purple, purple, black,  black,
+                                                     green,  green,  black,  black,
+                                                     purple, purple, black,  black );
+                    }
 
-              /* This example shows how to set up a static color palette
-                // which is stored in PROGMEM (flash), which is almost always more
-                // plentiful than RAM.  A static PROGMEM palette like this
-                // takes up 64 bytes of flash.
-                */
-              const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM =
-                {
-                  CRGB::Red,
-                  CRGB::Gray, // 'white' is too bright compared to red and blue
-                  CRGB::Blue,
-                  CRGB::Black,
+                  /* This example shows how to set up a static color palette
+                    // which is stored in PROGMEM (flash), which is almost always more
+                    // plentiful than RAM.  A static PROGMEM palette like this
+                    // takes up 64 bytes of flash.
+                    */
+                  const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM =
+                    {
+                      CRGB::Red,
+                      CRGB::Gray, // 'white' is too bright compared to red and blue
+                      CRGB::Blue,
+                      CRGB::Black,
 
-                  CRGB::Red,
-                  CRGB::Gray,
-                  CRGB::Blue,
-                  CRGB::Black,
+                      CRGB::Red,
+                      CRGB::Gray,
+                      CRGB::Blue,
+                      CRGB::Black,
 
-                  CRGB::Red,
-                  CRGB::Red,
-                  CRGB::Gray,
-                  CRGB::Gray,
-                  CRGB::Blue,
-                  CRGB::Blue,
-                  CRGB::Black,
-                  CRGB::Black
-                };
+                      CRGB::Red,
+                      CRGB::Red,
+                      CRGB::Gray,
+                      CRGB::Gray,
+                      CRGB::Blue,
+                      CRGB::Blue,
+                      CRGB::Black,
+                      CRGB::Black
+                    };
 
-              /* Additionl notes on FastLED compact palettes:
-                //
-                // Normally, in computer graphics, the palette (or "color lookup table")
-                // has 256 entries, each containing a specific 24-bit RGB color.  You can then
-                // index into the color palette using a simple 8-bit (one byte) value.
-                // A 256-entry color palette takes up 768 bytes of RAM, which on Arduino
-                // is quite possibly "too many" bytes.
-                //
-                // FastLED does offer traditional 256-element palettes, for setups that
-                // can afford the 768-byte cost in RAM.
-                //
-                // However, FastLED also offers a compact alternative.  FastLED offers
-                // palettes that store 16 distinct entries, but can be accessed AS IF
-                // they actually have 256 entries; this is accomplished by interpolating
-                // between the 16 explicit entries to create fifteen intermediate palette
-                // entries between each pair.
-                //
-                // So for example, if you set the first two explicit entries of a compact
-                // palette to Green (0,255,0) and Blue (0,0,255), and then retrieved
-                // the first sixteen entries from the virtual palette (of 256), you'd get
-                // Green, followed by a smooth gradient from green-to-blue, and then Blue.
-                */
+                  /* Additionl notes on FastLED compact palettes:
+                    //
+                    // Normally, in computer graphics, the palette (or "color lookup table")
+                    // has 256 entries, each containing a specific 24-bit RGB color.  You can then
+                    // index into the color palette using a simple 8-bit (one byte) value.
+                    // A 256-entry color palette takes up 768 bytes of RAM, which on Arduino
+                    // is quite possibly "too many" bytes.
+                    //
+                    // FastLED does offer traditional 256-element palettes, for setups that
+                    // can afford the 768-byte cost in RAM.
+                    //
+                    // However, FastLED also offers a compact alternative.  FastLED offers
+                    // palettes that store 16 distinct entries, but can be accessed AS IF
+                    // they actually have 256 entries; this is accomplished by interpolating
+                    // between the 16 explicit entries to create fifteen intermediate palette
+                    // entries between each pair.
+                    //
+                    // So for example, if you set the first two explicit entries of a compact
+                    // palette to Green (0,255,0) and Blue (0,0,255), and then retrieved
+                    // the first sixteen entries from the virtual palette (of 256), you'd get
+                    // Green, followed by a smooth gradient from green-to-blue, and then Blue.
+                    */
+                #endif
           #else
             #endif
         #endif

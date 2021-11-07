@@ -1,0 +1,18 @@
+-------------------- Auto-Git Log --------------------
+		Sun Nov 07 2021 22:54:49 GMT+0100 (Mitteleuropäische Normalzeit)
+------------------------------------------------------
+
+Modified files:
+* src/main.cpp
+* src/prj_config.h
+* src/project.h
+
+
+Created files:
+* .autogit/logs/log-7-10-2021-21-46-28.txt
+
+
+Deleted files:
+
+
+Renamed files:

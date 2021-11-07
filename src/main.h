@@ -189,11 +189,13 @@
 
         // WS2812 LEDs
           #if (USE_WS2812_LINE_OUT > OFF)
-              void FillLEDsFromPaletteColors( uint8_t colorIndex);
-              void ChangePalettePeriodically();
-              void SetupTotallyRandomPalette();
-              void SetupBlackAndWhiteStripedPalette();
-              void SetupPurpleAndGreenPalette();
+              void FillLEDsFromPaletteColors(uint8_t lineNo, uint8_t colorIndex);
+              void ChangePalettePeriodically(uint8_t lineNo);
+              #ifdef XXXX
+                  void SetupTotallyRandomPalette();
+                  void SetupBlackAndWhiteStripedPalette();
+                  void SetupPurpleAndGreenPalette();
+                #endif
             #endif
 
       // --- user input
