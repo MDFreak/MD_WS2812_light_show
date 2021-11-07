@@ -417,6 +417,8 @@
           #endif // USE_TASKING
         #if (USE_LED_BLINK_OUT > 0)
             #define BLINKTIME_MS  1200ul
+            #define BLINKPWM_FREQ 4000u
+            #define BLINKPWM_RES  8
           #endif
 
     // --- I2C interface
