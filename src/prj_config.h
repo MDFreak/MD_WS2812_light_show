@@ -230,7 +230,7 @@
 
           #if (USE_WS2812_LINE_OUT > OFF)
               #define PIN_WS2812_LD1     17
-                //#define PIN_WS2812_D2  x
+              #define PIN_WS2812_LD2     16
                 //#define PIN_WS2812_D3  x
                 //#define PIN_WS2812_D4  x
             #endif
@@ -417,7 +417,7 @@
           #endif // USE_TASKING
         #if (USE_LED_BLINK_OUT > 0)
             #define BLINKTIME_MS  1200ul
-            #define BLINKPWM_FREQ 4000u
+            #define BLINKPWM_FREQ 400
             #define BLINKPWM_RES  8
           #endif
 
@@ -554,20 +554,21 @@
                 #define ROWTIL_2812_L1 1
               #endif
             #if (USE_WS2812_LINE_OUT > 1)
-                #define LEDS_2812_L1   30
-                #define BRIGHT_2812_L1 12
-                #define TYPE_2812_L1   WS2812
-                #define COLORD_2812_L1 GRB
+                #define UPD_2812_L2_MS 10
+                #define LEDS_2812_L2   30
+                #define BRIGHT_2812_L2 12
+                #define TYPE_2812_L2   WS2812B
+                #define COLORD_2812_L2 GRB
                 #if (USE_WS2812_LINE_OUT > 2)
-                    #define LEDS_2812_L1   30
-                    #define BRIGHT_2812_L1 12
-                    #define TYPE_2812_L1   WS2812
-                    #define COLORD_2812_L1 GRB
+                    #define LEDS_2812_L3   30
+                    #define BRIGHT_2812_L3 12
+                    #define TYPE_2812_L3   WS2812
+                    #define COLORD_2812_L3 GRB
                     #if (USE_WS2812_LINE_OUT > 3)
-                        #define LEDS_2812_L1   30
-                        #define BRIGHT_2812_L1 12
-                        #define TYPE_2812_L1   WS2812
-                        #define COLORD_2812_L1 GRB
+                        #define LEDS_2812_L4   30
+                        #define BRIGHT_2812_L4 12
+                        #define TYPE_2812_L4   WS2812
+                        #define COLORD_2812_L4 GRB
                       #endif
                   #endif
               #endif

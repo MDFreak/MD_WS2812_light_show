@@ -94,16 +94,28 @@
 
     #if (USE_WS2812_LINE_OUT > OFF)
         msTimer         ws2812LT    = msTimer(UPD_2812_L1_MS);
-        static uint16_t idx2812L    = 0;
         unsigned long   ws2812L_alt = 0;
         uint32_t        ws2812L_cnt = 0;
         uint32_t        ws2812L_v   = 0;
         #ifdef USE_FAST_LED
             CRGBPalette16 currentPalette;
             TBlendType    currentBlending;
-            extern CRGBPalette16 myRedWhiteBluePalette;
-            extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
-            CRGB leds[LEDS_2812_L1];
+            //extern CRGBPalette16 myRedWhiteBluePalette;
+            //extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
+            uint16_t idx2812L1 = 0;
+            CRGB leds1[LEDS_2812_L1];
+            #if (USE_WS2812_LINE_OUT > 1)
+                uint16_t idx2812L2 = 0;
+                CRGB leds2[LEDS_2812_L2];
+                #if (USE_WS2812_LINE_OUT > 2)
+                    uint16_t idx2812L3 = 0;
+                    CRGB leds3[LEDS_2812_L3];
+                    #if (USE_WS2812_LINE_OUT > 3)
+                        uint16_t idx2812L4 = 0;
+                        CRGB leds4[LEDS_2812_L4];
+                      #endif
+                  #endif
+              #endif
         #else
             md_ws2812_matrix line_1 = md_ws2812_matrix
               ( COLPIX_2812_L1, ROWPIX_2812_L1,
@@ -382,10 +394,7 @@
 
           #if (USE_LED_BLINK_OUT > 0)
               pinMode(PIN_BOARD_LED, OUTPUT);
-
-              ledcSetup(PIN_BOARD_LED, BLINKPWM_FREQ, BLINKPWM_RES);
-              ledcWrite(PIN_BOARD_LED, 255);
-              //digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
+              digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
             #endif
 
       // --- user output
@@ -445,11 +454,28 @@
 
           #if (USE_WS2812_LINE_OUT > OFF)
               #ifdef USE_FAST_LED
-                  FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_LD1, COLORD_2812_L1>(leds, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
+                  FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_LD1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
                   FastLED.setBrightness(BRIGHT_2812_L1);
                   currentPalette = RainbowColors_p;
                   currentBlending = LINEARBLEND;
-                  //FastLED.show();
+                  #if (USE_WS2812_LINE_OUT > 1)
+                        FastLED.addLeds<TYPE_2812_L2, PIN_WS2812_LD2, COLORD_2812_L2>(leds2, LEDS_2812_L2).setCorrection(TypicalLEDStrip);
+                        FastLED.setBrightness(BRIGHT_2812_L1);
+                        currentPalette = RainbowColors_p;
+                        currentBlending = LINEARBLEND;
+                      #if (USE_WS2812_LINE_OUT > 2)
+                            FastLED.addLeds<TYPE_2812_L3, PIN_WS2812_LD3, COLORD_2812_L3>(leds3, LEDS_2812_L3).setCorrection(TypicalLEDStrip);
+                            FastLED.setBrightness(BRIGHT_2812_L3);
+                            currentPalette = RainbowColors_p;
+                            currentBlending = LINEARBLEND;
+                          #if (USE_WS2812_LINE_OUT > 3)
+                              FastLED.addLeds<TYPE_2812_L4, PIN_WS2812_LD4, COLORD_2812_L4>(leds3, LEDS_2812_L4).setCorrection(TypicalLEDStrip);
+                              FastLED.setBrightness(BRIGHT_2812_L4);
+                              currentPalette = RainbowColors_p;
+                              currentBlending = LINEARBLEND;
+                            #endif
+                        #endif
+                    #endif
               #else
                   SOUT("start WS2812 line ...");
                   line_1.begin();
@@ -739,9 +765,9 @@
               }
             ntpT.startT();
                   #if (DEBUG_MODE == CFG_DEBUG_DETAILS)
-                    //SOUT("Datum "); SOUT(day()); SOUT("."); SOUT(month()); SOUT("."); SOUT(year()); SOUT(" ");
-                    //SOUT("Zeit "); SOUT(hour()); SOUT("."); SOUT(minute()); SOUT(":"); SOUTLN(second());
-                  #endif
+                      //SOUT("Datum "); SOUT(day()); SOUT("."); SOUT(month()); SOUT("."); SOUT(year()); SOUT(" ");
+                      //SOUT("Zeit "); SOUT(hour()); SOUT("."); SOUT(minute()); SOUT(":"); SOUTLN(second());
+                    #endif
           }
         #endif // USE_NTP_SERVER
       // ----------------------
@@ -955,10 +981,10 @@
                   //    ws2812LT.startT();
                       //SOUT(" FASTLED ... ");
                       ChangePalettePeriodically();
-                      idx2812L = idx2812L + 1; /* motion speed */
+                      idx2812L1 = idx2812L1 + 1; /* motion speed */
                       ws2812L_cnt++;
                             //SOUT(micros()); SOUT(" "); SOUT(ws2812L_cnt);
-                      FillLEDsFromPaletteColors( idx2812L);
+                      FillLEDsFromPaletteColors( idx2812L1);
                             //SOUT(" show ... ");
                       FastLED.show();
                             //SOUTLN(" ready ");
@@ -1239,8 +1265,7 @@
                 //SOUT("disp end "); SOUT(" "); SOUTLN(millis());
                 if (SYS_LED_ON == ON) { SYS_LED_ON = OFF; }
                 else                  { SYS_LED_ON = ON ; }
-                ledcWrite(PIN_BOARD_LED, SYS_LED_ON * 100);
-                //digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
+                digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
 
                 oledIdx = 0;
                 dispT.startT();
@@ -1434,7 +1459,7 @@
                   uint8_t brightness = 255;
                   for( int i = 0; i < LEDS_2812_L1; i++)
                     {
-                      leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
+                      leds1[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
                       colorIndex += 3;
                     }
               }
@@ -1457,7 +1482,7 @@
                       lastSecond = secondHand;
                       //if( secondHand ==  0)  { currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND; SOUTLN("RainbowColors_p"); }
                       if( secondHand == 10)  { currentPalette = RainbowStripeColors_p;   currentBlending = NOBLEND;     SOUTLN("RainbowStripeColors_p"); }
-                      if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; SOUTLN("RainbowStripeColors_p"); }
+                      //if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; SOUTLN("RainbowStripeColors_p"); }
                       //if( secondHand == 20)  { SetupPurpleAndGreenPalette();             currentBlending = LINEARBLEND; SOUTLN("PurpleAndGreenPalette"); }
                       //if( secondHand == 25)  { SetupTotallyRandomPalette();              currentBlending = LINEARBLEND; SOUTLN("TotallyRandomPalette"); }
                       //if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       currentBlending = NOBLEND;     SOUTLN("BlackAndWhiteStripedPalette"); }
@@ -1880,17 +1905,17 @@
       void configWebsite()
         {
           #if (USE_WEBSERVER > OFF)
-            webMD.createElement(EL_TYPE_SLIDER, "LED red", "%");
-            webMD.createElement(EL_TYPE_SLIDER, "LED green", "%");
-            webMD.createElement(EL_TYPE_SLIDER, "LED blue", "%");
+              webMD.createElement(EL_TYPE_SLIDER, "LED red", "%");
+              webMD.createElement(EL_TYPE_SLIDER, "LED green", "%");
+              webMD.createElement(EL_TYPE_SLIDER, "LED blue", "%");
 
-            webMD.createElement(EL_TYPE_ANALOG, "DS18B20 Temp", "°C");
-            webMD.createElement(EL_TYPE_ANALOG, "Type-K Temp", "°C");
-            webMD.createElement(EL_TYPE_ANALOG, "BME_Temp", "°C");
-            webMD.createElement(EL_TYPE_ANALOG, "BME_Humidity", "%");
-            webMD.createElement(EL_TYPE_ANALOG, "BME_Pressure", "mb");
-            webMD.createElement(EL_TYPE_ANALOG, "Gaswert", "");
-          #endif // USE_WEBSERVER
+              webMD.createElement(EL_TYPE_ANALOG, "DS18B20 Temp", "°C");
+              webMD.createElement(EL_TYPE_ANALOG, "Type-K Temp", "°C");
+              webMD.createElement(EL_TYPE_ANALOG, "BME_Temp", "°C");
+              webMD.createElement(EL_TYPE_ANALOG, "BME_Humidity", "%");
+              webMD.createElement(EL_TYPE_ANALOG, "BME_Pressure", "mb");
+              webMD.createElement(EL_TYPE_ANALOG, "Gaswert", "");
+            #endif // USE_WEBSERVER
         }
 
       void startWebServer()
@@ -1921,7 +1946,7 @@
                     dispStatus("Webserver error");
                   }
               }
-          #endif // USE_WEBSERVER
+            #endif // USE_WEBSERVER
         }
 
 // --- end of code --------------------------
