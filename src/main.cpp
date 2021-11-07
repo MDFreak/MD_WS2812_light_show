@@ -382,8 +382,7 @@
 
           #if (USE_LED_BLINK_OUT > 0)
               pinMode(PIN_BOARD_LED, OUTPUT);
-              digitalWrite(PIN_BOARD_LED, ON);
-              SYS_LED_ON = ON;
+              digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
             #endif
 
       // --- user output
@@ -1235,6 +1234,10 @@
 
               default:
                 //SOUT("disp end "); SOUT(" "); SOUTLN(millis());
+                if (SYS_LED_ON == ON) { SYS_LED_ON = OFF; }
+                else                  { SYS_LED_ON = ON ; }
+                digitalWrite(PIN_BOARD_LED, SYS_LED_ON);
+
                 oledIdx = 0;
                 dispT.startT();
                 break;
