@@ -1094,7 +1094,7 @@
               {
               case 1: // system output
                   usPerCycle = (millis() - usLast) / anzUsCycles;
-                  //SOUT(usLast); SOUT(" "); SOUT(micros()); SOUT(" "); SOUTLN(usPerCycle);
+                  SOUT(usLast); SOUT(" "); SOUT(micros()); SOUT(" "); SOUTLN(usPerCycle);
                   usLast      = millis();
                   //SOUTLN(); SOUT(usLast); SOUT(" ms/cyc "); SOUT((uint32_t) usPerCycle); SOUT(" ");
                   anzUsCycles = 0ul;
