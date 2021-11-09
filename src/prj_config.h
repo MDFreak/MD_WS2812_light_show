@@ -541,7 +541,7 @@
 
             #define COLPIX_2812_T1 32
             #define ROWPIX_2812_T1 8
-            #define COLTIL_2812_M1 4  // 0 = OFF
+            #define COLTIL_2812_M1 0  // 4 / 0 = OFF
             #define ROWTIL_2812_M1 1
             #define ANZ_TILES_M1   COLTIL_2812_M1 * ROWPIX_2812_T1
               #if (USE_WS2812_MATRIX_OUT > 1)

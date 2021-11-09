@@ -73,8 +73,8 @@
             md_ws2812_matrix matrix_1 = md_ws2812_matrix
               ( COLPIX_2812_T1, ROWPIX_2812_T1,
                 COLTIL_2812_M1, ROWTIL_2812_M1, PIN_WS2812_M1,
-                ROW1_2812_M1  + COL1_2812_M1 +
-                DIR_2812_M1   + ORI_2812_M1,
+                ROW1_2812_T1  + COL1_2812_T1 +
+                DIR_2812_T1   + ORI_2812_T1,
                 (neoPixelType) COLORD_2812_M1 + NEO_KHZ800 );
         #else
             md_ws2812_matrix matrix_1 = md_ws2812_matrix
