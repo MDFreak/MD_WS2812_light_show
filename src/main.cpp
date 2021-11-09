@@ -72,12 +72,8 @@
         md_ws2812_matrix matrix_1 = md_ws2812_matrix
           ( COLPIX_2812_M1, ROWPIX_2812_M1,
             COLTIL_2812_M1, ROWTIL_2812_M1, PIN_WS2812_M1,
-            #if (ANZ_TILES_M1 > OFF)
-                NEO_TILE_TOP       + NEO_TILE_LEFT +
-                NEO_TILE_ROWS      + NEO_TILE_PROGRESSIVE +
-              #endif
-            COL1_2812_M1 + ROW1_2812_M1 +
-            COLS_2812_M1 + ORI_2812_M1,
+            ROW1_2812_M1  + COL1_2812_M1 +
+            DIR_2812_M1   + ORI_2812_M1,
             (neoPixelType) COLORD_2812_M1 + NEO_KHZ800 );
         msTimer ws2812MT   = msTimer(UPD_2812_M1_MS);
         #if (USE_WS2812_MATRIX_OUT > 1)
