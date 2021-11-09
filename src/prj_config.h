@@ -524,10 +524,10 @@
             #define COLPIX_2812_M1 64
             #define ROWPIX_2812_M1 8
             #define LEDS_2812_M1   COLPIX_2812_M1 * ROWPIX_2812_M1
-            #define ANZ_TILES_M1   4
+            #define ANZ_TILES_M1   OFF
             #define COLPIX_2812_T1 8
             #define ROWPIX_2812_T1 8
-            #define COLTIL_2812_M1 4
+            #define COLTIL_2812_M1 1
             #define ROWTIL_2812_M1 1
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #ifndef USE_OUTPUT_CYCLE

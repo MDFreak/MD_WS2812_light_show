@@ -69,10 +69,6 @@
 
 
     #if (USE_WS2812_MATRIX_OUT > OFF)
-        //Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, 6,
-          //NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
-          //NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE,
-          //NEO_RGB            + NEO_KHZ800);
         md_ws2812_matrix matrix_1 = md_ws2812_matrix
           ( COLPIX_2812_M1, ROWPIX_2812_M1,
             COLTIL_2812_M1, ROWTIL_2812_M1, PIN_WS2812_M1,
