@@ -76,8 +76,8 @@
                 NEO_TILE_TOP       + NEO_TILE_LEFT +
                 NEO_TILE_ROWS      + NEO_TILE_PROGRESSIVE +
               #endif
-            NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
-            NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
+            COL1_2812_M1 + ROW1_2812_M1 +
+            COLS_2812_M1 + ORI_2812_M1,
             (neoPixelType) COLORD_2812_M1 + NEO_KHZ800 );
         msTimer ws2812MT   = msTimer(UPD_2812_M1_MS);
         #if (USE_WS2812_MATRIX_OUT > 1)
@@ -100,7 +100,7 @@
             { (char*) text2812, COL16_RED_HIGH,    (uint8_t) BRIGHT_2812_M1 },
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
           };
-        static int16_t posM2812 = sizeof(text2812) * COLCHAR_2812 + 2 * COLBMP_2812;
+        static int16_t posM2812 = (int16_t) ((COLPIX_2812_M1 + 2) * COLBMP_2812);
       #endif
 
     #if (USE_WS2812_LINE_OUT > OFF)
