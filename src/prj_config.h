@@ -526,6 +526,23 @@
             #define ROWPIX_2812_T1 8
             #define COLTIL_2812_M1 4
             #define ROWTIL_2812_M1 1
+            //#define TILTYPE_2812_M
+              #if (USE_WS2812_MATRIX_OUT > 1)
+                  #ifndef USE_OUTPUT_CYCLE
+                      #define USE_OUTPUT_CYCLE
+                    #endif
+                  #define UPD_2812_M2_MS 8
+                  #define LEDS_2812_M2   512
+                  #define BRIGHT_2812_M2 5
+                  #define TYPE_2812_M2   WS2812B
+                  #define COLORD_2812_M2 NEO_GRB
+                  #define COLPIX_2812_M2 128
+                  #define ROWPIX_2812_M2 8
+                  #define COLPIX_2812_T2 8
+                  #define ROWPIX_2812_T2 8
+                  #define COLTIL_2812_M2 4
+                  #define ROWTIL_2812_M2 1
+                #endif
           #endif
 
         #if (USE_WS2812_LINE_OUT > OFF)

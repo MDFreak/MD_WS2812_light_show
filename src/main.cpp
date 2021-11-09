@@ -76,8 +76,10 @@
         md_ws2812_matrix matrix_1 = md_ws2812_matrix
           ( COLPIX_2812_M1, ROWPIX_2812_M1,
             COLTIL_2812_M1, ROWTIL_2812_M1, PIN_WS2812_MD1,
-            NEO_TILE_TOP       + NEO_TILE_LEFT +
-            NEO_TILE_ROWS      + NEO_TILE_PROGRESSIVE +
+            #if (ANZ_TILES_M1 > OFF)
+                NEO_TILE_TOP       + NEO_TILE_LEFT +
+                NEO_TILE_ROWS      + NEO_TILE_PROGRESSIVE +
+              #endif
             NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
             (neoPixelType) COLORD_2812_M1 + NEO_KHZ800 );
