@@ -222,17 +222,19 @@
             #endif
 
           #if (USE_WS2812_MATRIX_OUT > OFF)
-              #define PIN_WS2812_MD1  16
-                //#define PIN_WS2812_MD2  x
-                //#define PIN_WS2812_MD3  x
-                //#define PIN_WS2812_MD4  x
+              #define PIN_WS2812_M1      16
+              #if (USE_WS2812_MATRIX_OUT > 1)
+                  #define PIN_WS2812_M2  17
+                #endif
+                //#define PIN_WS2812_M3  x
+                //#define PIN_WS2812_M4  x
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
-              #define PIN_WS2812_LD1     16
-              #define PIN_WS2812_LD2     17
-                //#define PIN_WS2812_D3  x
-                //#define PIN_WS2812_D4  x
+              #define PIN_WS2812_L1      16
+              #define PIN_WS2812_L2      17
+                //#define PIN_WS2812_L3  x
+                //#define PIN_WS2812_L4  x
             #endif
 
           #if (USE_TFT > OFF)
@@ -516,17 +518,17 @@
                 #define USE_OUTPUT_CYCLE
               #endif
             #define UPD_2812_M1_MS 8
-            #define LEDS_2812_M1   512
             #define BRIGHT_2812_M1 5
             #define TYPE_2812_M1   WS2812B
             #define COLORD_2812_M1 NEO_GRB
-            #define COLPIX_2812_M1 128
+            #define COLPIX_2812_M1 64
             #define ROWPIX_2812_M1 8
+            #define LEDS_2812_M1   COLPIX_2812_M1 * ROWPIX_2812_M1
+            #define ANZ_TILES_M1   4
             #define COLPIX_2812_T1 8
             #define ROWPIX_2812_T1 8
             #define COLTIL_2812_M1 4
             #define ROWTIL_2812_M1 1
-            //#define TILTYPE_2812_M
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #ifndef USE_OUTPUT_CYCLE
                       #define USE_OUTPUT_CYCLE
