@@ -467,7 +467,9 @@
           #if (USE_WS2812_MATRIX_OUT > OFF)
               SOUT("start WS2812 matrix ...");
               matrix_1.begin();
-              //usleep(5000);
+              usleep(5000);
+              matrix_1.display_boxes();
+              usleep(1500000);
               //matrix_1.start_scroll_task((scroll2812_t*) &outM2812, &posM2812);
               matrix_1.start_scroll_matrix((scroll2812_t*) &outM2812, &posM2812);
               SOUTLN(" ok");

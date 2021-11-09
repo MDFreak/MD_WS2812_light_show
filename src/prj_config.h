@@ -539,7 +539,7 @@
             #define DIR_2812_T1    NEO_TILE_COLUMNS
             #define ORI_2812_T1    NEO_TILE_ZIGZAG
 
-            #define COLPIX_2812_T1 32
+            #define COLPIX_2812_T1 8
             #define ROWPIX_2812_T1 8
             #define COLTIL_2812_M1 0  // 4 / 0 = OFF
             #define ROWTIL_2812_M1 1
