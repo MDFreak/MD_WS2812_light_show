@@ -84,7 +84,7 @@
                 DIR_2812_M1   + ORI_2812_M1,
                 (neoPixelType) COLORD_2812_M1 + NEO_KHZ800 );
           #endif
-        msTimer ws2812MT   = msTimer(UPD_2812_M1_MS);
+        msTimer ws2812T1   = msTimer(UPD_2812_M1_MS);
         #if (USE_WS2812_MATRIX_OUT > 1)
             md_ws2812_matrix matrix_2 = md_ws2812_matrix
               ( COLPIX_2812_M2, ROWPIX_2812_M2,
@@ -988,13 +988,13 @@
       // ----------------------
       #ifdef USE_OUTPUT_CYCLE
           #if (USE_WS2812_MATRIX_OUT > OFF)
-              //if (ws2812T.TOut())
-              //  {
-              //    ws2812T.startT();
+              if (ws2812T1.TOut())
+                {
+                  ws2812T1.startT();
                   //SOUTLN(); SOUT(micros());
                   matrix_1.scroll_matrix();
                   //SOUT(" "); SOUTLN(micros());
-              //  }
+                }
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
