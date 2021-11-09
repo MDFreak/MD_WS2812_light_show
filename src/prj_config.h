@@ -517,6 +517,10 @@
             #ifndef USE_OUTPUT_CYCLE
                 #define USE_OUTPUT_CYCLE
               #endif
+            #define COLCHAR_2812   6
+            #define COLBMP_2812    8
+            #define ROWBMP_2812    8
+            #define COLCHAR_2812   6
             #define UPD_2812_M1_MS 8
             #define BRIGHT_2812_M1 5
             #define TYPE_2812_M1   WS2812B

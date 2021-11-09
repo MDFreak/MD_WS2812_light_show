@@ -100,7 +100,7 @@
             { (char*) text2812, COL16_RED_HIGH,    (uint8_t) BRIGHT_2812_M1 },
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
           };
-        static int16_t posM2812 = -10000;
+        static int16_t posM2812 = sizeof(text2812) * COLCHAR_2812 + 2 * COLBMP_2812;
       #endif
 
     #if (USE_WS2812_LINE_OUT > OFF)
