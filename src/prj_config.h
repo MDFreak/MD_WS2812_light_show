@@ -539,11 +539,11 @@
             #define DIR_2812_T1    NEO_TILE_COLUMNS
             #define ORI_2812_T1    NEO_TILE_ZIGZAG
 
-            #define ANZ_TILES_M1   OFF
             #define COLPIX_2812_T1 32
             #define ROWPIX_2812_T1 8
-            #define COLTIL_2812_M1 4
+            #define COLTIL_2812_M1 4  // 0 = OFF
             #define ROWTIL_2812_M1 1
+            #define ANZ_TILES_M1   COLTIL_2812_M1 * ROWPIX_2812_T1
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #ifndef USE_OUTPUT_CYCLE
                       #define USE_OUTPUT_CYCLE

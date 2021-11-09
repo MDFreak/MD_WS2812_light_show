@@ -71,7 +71,7 @@
     #if (USE_WS2812_MATRIX_OUT > OFF)
         #if (ANZ_TILES_M1 > OFF)
             md_ws2812_matrix matrix_1 = md_ws2812_matrix
-              ( COLPIX_2812_M1, ROWPIX_2812_M1,
+              ( COLPIX_2812_T1, ROWPIX_2812_T1,
                 COLTIL_2812_M1, ROWTIL_2812_M1, PIN_WS2812_M1,
                 ROW1_2812_M1  + COL1_2812_M1 +
                 DIR_2812_M1   + ORI_2812_M1,
