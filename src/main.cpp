@@ -975,7 +975,7 @@
               //    ws2812T.startT();
                   //SOUTLN(); SOUT(micros());
                   matrix_1.scroll_matrix();
-                  SOUT(" "); SOUTLN(micros());
+                  //SOUT(" "); SOUTLN(micros());
               //  }
             #endif
 

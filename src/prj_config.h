@@ -516,7 +516,7 @@
                 #define USE_OUTPUT_CYCLE
               #endif
             #define UPD_2812_M1_MS 8
-            #define LEDS_2812_M1   1024
+            #define LEDS_2812_M1   512
             #define BRIGHT_2812_M1 5
             #define TYPE_2812_M1   WS2812B
             #define COLORD_2812_M1 NEO_GRB
