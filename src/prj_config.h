@@ -530,16 +530,16 @@
 
             #define TYPE_2812_M1   WS2812B
             #define COLORD_2812_M1 NEO_GRB
-            #define COLPIX_2812_M1 64
+            #define COLPIX_2812_M1 32
             #define ROWPIX_2812_M1 8
             #define LEDS_2812_M1   COLPIX_2812_M1 * ROWPIX_2812_M1
 
-            #define ROW1_2812_T1   NEO_TILE_TOP
-            #define COL1_2812_T1   NEO_TILE_LEFT
-            #define DIR_2812_T1    NEO_TILE_COLUMNS
-            #define ORI_2812_T1    NEO_TILE_ZIGZAG
+            #define ROW1_2812_T1   NEO_MATRIX_TOP
+            #define COL1_2812_T1   NEO_MATRIX_LEFT
+            #define DIR_2812_T1    NEO_TILE_ROWS
+            #define ORI_2812_T1    NEO_TILE_PROGRESSIVE
 
-            #define COLPIX_2812_T1 8
+            #define COLPIX_2812_T1 32
             #define ROWPIX_2812_T1 8
             #define COLTIL_2812_M1 0  // 4 / 0 = OFF
             #define ROWTIL_2812_M1 1
