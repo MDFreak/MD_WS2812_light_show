@@ -481,7 +481,7 @@
 
           #if (USE_WS2812_LINE_OUT > OFF)
               #ifdef USE_FAST_LED
-                  FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_LD1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
+                  FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_L1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
                   FastLED.setBrightness(BRIGHT_2812_L1);
                   curPalette1 = RainbowStripeColors_p;
                   curBlending1 = NOBLEND;
@@ -1002,34 +1002,37 @@
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
-              #ifdef USE_FAST_LED
-                //SOUT(" FASTLED ... ");
-                //ChangePalettePeriodically(0);
-                idx2812L1 = idx2812L1 + 1; /* motion speed */
-                ws2812L1_cnt++;
-                FillLEDsFromPaletteColors(0, idx2812L1);
-                      //SOUT(micros()); SOUT(" "); SOUT(ws2812L1_cnt);
-                      //SOUT(" show ... ");
-                #if (USE_WS2812_LINE_OUT > 1)
-                      //idx2812L2 = idx2812L2 + 1; /* motion speed */
-                      //ws2812L2_cnt++;
-                      //FillLEDsFromPaletteColors(1, idx2812L2);
-                    #if (USE_WS2812_LINE_OUT > 2)
-                        #if (USE_WS2812_LINE_OUT > 3)
+              if (ws2812LT.TOut())
+                {
+                  ws2812LT.startT();
+                  #ifdef USE_FAST_LED
+                    //SOUT(" FASTLED ... ");
+                    //ChangePalettePeriodically(0);
+                    idx2812L1 = idx2812L1 + 1; /* motion speed */
+                    ws2812L1_cnt++;
+                    FillLEDsFromPaletteColors(0, idx2812L1);
+                          //SOUT(micros()); SOUT(" "); SOUT(ws2812L1_cnt);
+                          //SOUT(" show ... ");
+                    #if (USE_WS2812_LINE_OUT > 1)
+                          //idx2812L2 = idx2812L2 + 1; /* motion speed */
+                          //ws2812L2_cnt++;
+                          //FillLEDsFromPaletteColors(1, idx2812L2);
+                        #if (USE_WS2812_LINE_OUT > 2)
+                            #if (USE_WS2812_LINE_OUT > 3)
+                              #endif
                           #endif
                       #endif
-                  #endif
-                FastLED.show();
-                      //SOUTLN(" ready ");
-              #else
-                  if (ws2812LT.TOut())
-                    {
-                      ws2812LT.startT();
-                      line_1.scroll_colorLine();
-                    }
-                #endif
+                    FastLED.show();
+                          //SOUTLN(" ready ");
+                  #else
+                      if (ws2812LT.TOut())
+                        {
+                          ws2812LT.startT();
+                          line_1.scroll_colorLine();
+                        }
+                    #endif
+                }
             #endif
-
           if (outpT.TOut())
             {
               outpT.startT();

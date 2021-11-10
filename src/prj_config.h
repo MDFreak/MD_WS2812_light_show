@@ -231,8 +231,8 @@
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
-              #define PIN_WS2812_L1      16
-              #define PIN_WS2812_L2      17
+              #define PIN_WS2812_L1      17
+                //#define PIN_WS2812_L2      17
                 //#define PIN_WS2812_L3  x
                 //#define PIN_WS2812_L4  x
             #endif
@@ -520,7 +520,11 @@
             #define COLCHAR_2812   6
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
-            #define UPD_2812_M1_MS 70
+            #ifdef  UPD_2812_L1_MS
+                #define UPD_2812_M1_MS  UPD_2812_L1_MS
+              #else
+                #define UPD_2812_M1_MS 70
+              #endif
             #define BRIGHT_2812_M1 5
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
@@ -572,6 +576,11 @@
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
+                #ifdef  UPD_2812_M1_MS
+                    #define UPD_2812_L1_MS   UPD_2812_M1_MS
+                  #else
+                    #define UPD_2812_L1_MS 70
+                  #endif
                 #define LEDS_2812_L1   300
                 #define BRIGHT_2812_L1 5
                 #define TYPE_2812_L1   WS2812B
