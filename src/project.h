@@ -32,8 +32,8 @@
       #define USE_BUZZER_PWM        OFF
       #define USE_FAN_PWM           OFF
       #define USE_OUT_FREQ_PWM      OFF
-      #define USE_WS2812_MATRIX_OUT OFF   // [0, 1..4]
-      #define USE_WS2812_LINE_OUT   1     // [0, 1..4]
+      #define USE_WS2812_MATRIX_OUT 1   // some time matrix and line not allowed
+      #define USE_WS2812_LINE_OUT   1     // some time matrix and line not allowed
     // --- user input components
       #define USE_TOUCHSCREEN_SPI   OFF
       #define USE_TOUCHSCREEN_IO    OFF
@@ -78,6 +78,11 @@
       #if (USED_IOPINS > 15)
           #define ERROR !!! zuviele IOs verwendet !!!
           ERROR
+        #endif
+    // --- safety check
+      #if (USE_WS2812_MATRIX_OUT > OFF)
+          #undef USED_WS2812_LINE_OUT
+          #define USED_WS2812_LINE_OUT   OFF
         #endif
     // to be reorganised
       #define USE_DISP            USE_DISP_I2C + USE_DISP_SPI

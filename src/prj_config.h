@@ -643,8 +643,11 @@
                 #define WIFI_FIXIP0     0x1A00000Aul // 10.0.0.26   lowest first
               #endif
             #define WIFI_GATEWAY0   0x8B00000Aul // 10.0.0.139
-            //#define WIFI_FIXIP1     0x1400000Aul // 10.0.0.20
-            #define WIFI_FIXIP1     0x1500000Aul // 10.0.0.21
+            #if (USED_WS2812_LINE_OUT > OFF)
+                #define WIFI_FIXIP1     0x1400000Aul // 10.0.0.20
+              #else
+                #define WIFI_FIXIP1     0x1500000Aul // 10.0.0.21
+              #endif
             #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139
             #define WIFI_FIXIP2     0x1400000Aul // 10.0.0.20
             #define WIFI_GATEWAY2   0x8a00000Aul // 10.0.0.138
