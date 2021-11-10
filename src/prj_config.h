@@ -544,8 +544,8 @@
             #define ROWTIL_2812_M1 1   // 0 = OFF
             #define ANZ_TILES_M1   COLTIL_2812_M1 * ROWPIX_2812_T1
             #define COLPIX_2812_M1 COLTIL_2812_M1 * COLPIX_2812_T1
-            #define OFFBEG_2812_M1 COLPIX_2812_T1 + 1
-            #define OFFEND_2812_M1 -COLPIX_2812_T1
+            #define OFFBEG_2812_M1 1 //+ COLPIX_2812_T1
+            #define OFFEND_2812_M1 0 //+ COLPIX_2812_T1
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #ifndef USE_OUTPUT_CYCLE
                       #define USE_OUTPUT_CYCLE
@@ -572,7 +572,7 @@
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
-                #define LEDS_2812_L1   599
+                #define LEDS_2812_L1   300
                 #define BRIGHT_2812_L1 5
                 #define TYPE_2812_L1   WS2812B
                 #define COLORD_2812_L1 GRB
