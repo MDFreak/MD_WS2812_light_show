@@ -222,7 +222,7 @@
             #endif
 
           #if (USE_WS2812_MATRIX_OUT > OFF)
-              #define PIN_WS2812_M1      16
+              #define PIN_WS2812_M1      27
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #define PIN_WS2812_M2  17
                 #endif
@@ -231,7 +231,7 @@
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
-              #define PIN_WS2812_L1      17
+              #define PIN_WS2812_L1      27
                 //#define PIN_WS2812_L2      17
                 //#define PIN_WS2812_L3  x
                 //#define PIN_WS2812_L4  x
