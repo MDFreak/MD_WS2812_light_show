@@ -107,6 +107,9 @@
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
           };
         static int16_t posM2812 = (int16_t) (COLPIX_2812_M1 + OFFBEG_2812_M1);
+        unsigned long ws2812_alt = 0;
+        uint32_t      ws2812_cnt = 0;
+        uint32_t      ws2812_v   = 0;
       #endif
 
     #if (USE_WS2812_LINE_OUT > OFF)
@@ -114,9 +117,9 @@
         #ifdef USE_FAST_LED
             //extern CRGBPalette16 myRedWhiteBluePalette;
             //extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
-            unsigned long ws2812L1_alt = 0;
-            uint32_t      ws2812L1_cnt = 0;
-            uint32_t      ws2812L1_v   = 0;
+            unsigned long ws2812_alt = 0;
+            uint32_t      ws2812_cnt = 0;
+            uint32_t      ws2812_v   = 0;
             uint16_t      idx2812L1    = 0;
             CRGBPalette16 curPalette1;
             TBlendType    curBlending1;
@@ -999,6 +1002,7 @@
                   //SOUTLN(); SOUT(micros());
                   matrix_1.scroll_matrix();
                   //SOUT(" "); SOUTLN(micros());
+                  ws2812_cnt++;
                 }
             #endif
 
@@ -1010,7 +1014,7 @@
                     //SOUT(" FASTLED ... ");
                     //ChangePalettePeriodically(0);
                     idx2812L1 = idx2812L1 + 1; /* motion speed */
-                    ws2812L1_cnt++;
+                    ws2812_cnt++;
                     FillLEDsFromPaletteColors(0, idx2812L1);
                           //SOUT(micros()); SOUT(" "); SOUT(ws2812L1_cnt);
                           //SOUT(" show ... ");
@@ -1245,20 +1249,20 @@
                 break;
 
               case 8: // WS2812 lines
-                #if (USE_WS2812_LINE_OUT > OFF)
+                #if ((USE_WS2812_MATRIX_OUT > OFF) || (USE_WS2812_LINE_OUT > OFF))
                     outStr = "              ";
                     dispText(outStr ,  0, 0, outStr.length());
                     //outStr = "LED ";
                     outStr = "";
                         //outStr += (String) ws2812_cnt; outStr += " ";
-                    ws2812L1_v = millis() - ws2812L1_alt; // dispT.getTout();
-                    ws2812L1_alt = millis();
-                    if (ws2812L1_cnt > 0)
+                    ws2812_v = millis() - ws2812_alt; // dispT.getTout();
+                    ws2812_alt = millis();
+                    if (ws2812_cnt > 0)
                       {
-                        ws2812L1_v = ws2812L1_v / ws2812L1_cnt;
-                        ws2812L1_cnt = 0;
+                        ws2812_v = ws2812_v / ws2812_cnt;
+                        ws2812_cnt = 0;
                       }
-                    outStr += (String) ws2812L1_v;
+                    outStr += (String) ws2812_v;
                     outStr += ("ms");
                           //SOUT((uint32_t) millis()); SOUT(" ");
                               //SOUT(outStr); SOUT(" ");
@@ -1391,9 +1395,11 @@
 
             if (!statOn) // disp actual time
               {
-                sprintf(statOut,"%02d.%02d. %02d:%02d:%02d ", day(), month(), hour(), minute(), second());
-                msg = statOut;
-                doIt = true;
+                #if (USE_NTP_SERVER > OFF)
+                    sprintf(statOut,"%02d.%02d. %02d:%02d:%02d ", day(), month(), hour(), minute(), second());
+                    msg = statOut;
+                    doIt = true;
+                  #endif
               }
             if (doIt)
               {
