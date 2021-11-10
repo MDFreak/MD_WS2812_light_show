@@ -520,11 +520,7 @@
             #define COLCHAR_2812   6
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
-            #ifdef  UPD_2812_L1_MS
-                #define UPD_2812_M1_MS  UPD_2812_L1_MS
-              #else
-                #define UPD_2812_M1_MS 70
-              #endif
+            #define UPD_2812_M1_MS 70
             #define BRIGHT_2812_M1 5
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
@@ -576,11 +572,7 @@
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
-                #ifdef  UPD_2812_M1_MS
-                    #define UPD_2812_L1_MS   UPD_2812_M1_MS
-                  #else
-                    #define UPD_2812_L1_MS 70
-                  #endif
+                #define UPD_2812_L1_MS 10
                 #define LEDS_2812_L1   300
                 #define BRIGHT_2812_L1 5
                 #define TYPE_2812_L1   WS2812B

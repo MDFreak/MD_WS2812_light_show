@@ -1165,8 +1165,16 @@
                 break;
 
               case 2: // webserver nu
-                #if (USE_WEBSERVER > OFF)
-                  #endif
+                  #if (USE_WIFI > OFF)
+                      //outStr = "IP";
+                      outStr = (String) WiFi.localIP()[3];
+                      dispText(outStr ,  2, 0, outStr.length());
+                    #endif
+                  #if (USE_WEBSERVER > OFF)
+                      //outStr = (String) (WiFi.localIP());
+
+                      //outStr = "TK1 ";
+                    #endif
                 break;
 
               case 3: // k-type sensor
