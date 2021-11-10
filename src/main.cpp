@@ -105,7 +105,7 @@
             { (char*) text2812, COL16_RED_HIGH,    (uint8_t) BRIGHT_2812_M1 },
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
           };
-        static int16_t posM2812 = (int16_t) ((COLPIX_2812_M1 + 2) * COLBMP_2812);
+        static int16_t posM2812 = (int16_t) (COLPIX_2812_M1 + COLBMP_2812 + 2);
       #endif
 
     #if (USE_WS2812_LINE_OUT > OFF)
@@ -471,7 +471,9 @@
               matrix_1.display_boxes();
               usleep(1500000);
               //matrix_1.start_scroll_task((scroll2812_t*) &outM2812, &posM2812);
+              SOUT(" start = "); SOUTLN(posM2812);
               matrix_1.start_scroll_matrix((scroll2812_t*) &outM2812, &posM2812);
+              ws2812T1.startT();
               SOUTLN(" ok");
             #endif
 

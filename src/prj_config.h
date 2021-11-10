@@ -520,7 +520,7 @@
             #define COLCHAR_2812   6
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
-            #define UPD_2812_M1_MS 50
+            #define UPD_2812_M1_MS 70
             #define BRIGHT_2812_M1 5
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
@@ -530,20 +530,22 @@
 
             #define TYPE_2812_M1   WS2812B
             #define COLORD_2812_M1 NEO_GRB
-            #define COLPIX_2812_M1 128
             #define ROWPIX_2812_M1 8
             #define LEDS_2812_M1   COLPIX_2812_M1 * ROWPIX_2812_M1
 
             #define ROW1_2812_T1   NEO_MATRIX_TOP
             #define COL1_2812_T1   NEO_MATRIX_LEFT
             #define DIR_2812_T1    NEO_MATRIX_COLUMNS
-            #define ORI_2812_T1    NEO_TILE_PROGRESSIVE
+            #define ORI_2812_T1    NEO_MATRIX_ZIGZAG
 
             #define COLPIX_2812_T1 8
             #define ROWPIX_2812_T1 8
-            #define COLTIL_2812_M1 0  // 0 = OFF
-            #define ROWTIL_2812_M1 1
+            #define COLTIL_2812_M1 16  // needs correct value
+            #define ROWTIL_2812_M1 1   // 0 = OFF
             #define ANZ_TILES_M1   COLTIL_2812_M1 * ROWPIX_2812_T1
+            #define COLPIX_2812_M1 COLTIL_2812_M1 * COLPIX_2812_T1
+            #define OFFBEG_2812_M1 COLPIX_2812_T1 + 1
+            #define OFFEND_2812_M1 -COLPIX_2812_T1
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #ifndef USE_OUTPUT_CYCLE
                       #define USE_OUTPUT_CYCLE
