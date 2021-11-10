@@ -1166,9 +1166,9 @@
 
               case 2: // webserver nu
                   #if (USE_WIFI > OFF)
-                      //outStr = "IP";
-                      outStr = (String) WiFi.localIP()[3];
-                      dispText(outStr ,  2, 0, outStr.length());
+                      outStr = "10.0.0.";
+                      outStr.concat((String) WiFi.localIP()[3]);
+                      dispText(outStr ,  0, 1, outStr.length());
                     #endif
                   #if (USE_WEBSERVER > OFF)
                       //outStr = (String) (WiFi.localIP());

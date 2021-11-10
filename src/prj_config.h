@@ -521,7 +521,7 @@
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
             #define UPD_2812_M1_MS 70
-            #define BRIGHT_2812_M1 5
+            #define BRIGHT_2812_M1 255
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
             #define COL1_2812_M1   NEO_MATRIX_LEFT
@@ -572,9 +572,8 @@
             #define USE_FAST_LED
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
-                #define UPD_2812_L1_MS 10
                 #define LEDS_2812_L1   300
-                #define BRIGHT_2812_L1 5
+                #define BRIGHT_2812_L1 255
                 #define TYPE_2812_L1   WS2812B
                 #define COLORD_2812_L1 GRB
             #else
@@ -630,7 +629,11 @@
             #if !(BOARD ^ MC_ESP32_Node)
                 #define WIFI_FIXIP0     0x1400000Aul // 10.0.0.20   lowest first
             #elif !(BOARD ^ MC_ESP32_D1_MINI)
-                #define WIFI_FIXIP0     0x1600000Aul // 10.0.0.22   lowest first
+            #if (USED_WS2812_LINE_OUT > OFF)
+                #define WIFI_FIXIP0     0x1400000Aul // 10.0.0.20
+              #else
+                #define WIFI_FIXIP0     0x1500000Aul // 10.0.0.21
+              #endif
             #elif !(BOARD ^ MC_ESP32_D1_R32)
                 #define WIFI_FIXIP0     0x1A00000Aul // 10.0.0.26   lowest first
               #endif
