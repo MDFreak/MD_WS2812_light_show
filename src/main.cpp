@@ -470,6 +470,7 @@
         // WS2812 LEDs
           #if (USE_WS2812_MATRIX_OUT > OFF)
               SOUT("start WS2812 matrix ...");
+              dispStatus("start WS2812 Matrix");
               matrix_1.begin();
               usleep(5000);
               matrix_1.display_boxes();
@@ -485,6 +486,7 @@
 
           #if (USE_WS2812_LINE_OUT > OFF)
               #ifdef USE_FAST_LED
+                  dispStatus("start WS2812 Line");
                   FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_L1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
                   FastLED.setBrightness(BRIGHT_2812_L1);
                   curPalette1 = RainbowStripeColors_p;
@@ -622,6 +624,7 @@
         // temp. sensor DS18D20
           #if (USE_DS18B20_1W_IO > OFF)
                   SOUT(millis()); SOUT(" DS18D20 ... " );
+              dispStatus("init DS18D20");
               dsSensors.begin();
               String DS18Str = getDS18D20Str();
               dispStatus(DS18Str);
@@ -630,6 +633,7 @@
         // BME280 temperature, pessure, humidity
           #if ( USE_BME280_I2C > OFF )
                     SOUT(millis()); SOUT(" BME280 ... " );
+                dispStatus("init BME280");
                 bool bmeda = false;
                 #if defined( I2C_BME2801_USE_I2C1 )
                     bmeda = bme.begin(I2C_ADDR_BME2801, &i2c1);
@@ -657,7 +661,8 @@
         // K-type thermoelementation
           #if ( USE_TYPE_K_SPI > 0)
                     SOUT(millis()); SOUT(" Tcouple1 ... " );
-                uint8_t tkerr = TypeK1.begin();
+               dispStatus("init TypeK");
+               uint8_t tkerr = TypeK1.begin();
                 if (!tkerr)
                     {
                             SOUT(" gefunden TK1 ");
@@ -694,6 +699,7 @@
           #if (USE_FRAM_I2C > OFF) // NIO funktioniert nicht
             // Read the first byte
             SOUT("FRAM addr "); SOUTHEX(I2C_ADDR_FRAM1);
+            dispStatus("init FRAM");
             bool ret = !fram.begin(I2C_SDA_FRAM1, I2C_SCL_FRAM1, I2C_ADDR_FRAM1);
             if (ret == ISOK)
               {
@@ -738,8 +744,11 @@
                   SYS_LED_ON = OFF;
                 #endif
               SOUTLN();
+              dispStatus("... end setup");
               SOUT("... end setup -- error="); SOUTLN(md_error);
               SOUTLN();
+              usleep(400000);
+              dispStatus("             ");
             #endif
     }
 
