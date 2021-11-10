@@ -521,7 +521,7 @@
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
             #define UPD_2812_M1_MS 70
-            #define BRIGHT_2812_M1 255
+            #define BRIGHT_2812_M1 15
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
             #define COL1_2812_M1   NEO_MATRIX_LEFT

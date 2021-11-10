@@ -46,10 +46,10 @@
       #define USE_TYPE_K_SPI        OFF   // [0, 1, ....] limited by Pins
       #define USE_MQ135_GAS_ADC     OFF   // [0, 1, ....] limited by analog inputs
     // --- network  components
-      #define USE_WIFI              ON
-      #define USE_NTP_SERVER        ON
-      #define USE_LOCAL_IP          ON
-      #define USE_WEBSERVER         ON
+      #define USE_WIFI              OFF
+      #define USE_NTP_SERVER        OFF
+      #define USE_LOCAL_IP          OFF
+      #define USE_WEBSERVER         OFF
     // --- memory components
       #define USE_FRAM_I2C          OFF   // [0, 1, ...] limited by I2C channel/addr
     // --- test components

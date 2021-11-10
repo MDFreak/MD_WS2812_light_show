@@ -103,7 +103,7 @@
           {
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 },
             //{ (char*) text2812, COL16_RED_HIGH,    (uint8_t) BRIGHT_2812_M1 },
-            { (char*) text2812, (31 << 11) + (8 << 5) + 10,    (uint8_t) BRIGHT_2812_M1 },
+            { (char*) text2812, (31 << 11) + (8 << 5) + 5,    (uint8_t) BRIGHT_2812_M1 },
             { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
           };
         static int16_t posM2812 = (int16_t) (COLPIX_2812_M1 + OFFBEG_2812_M1);
@@ -1167,10 +1167,12 @@
 
               case 2: // webserver nu
                   #if (USE_WIFI > OFF)
-                      outStr = "10.0.0.";
+                      outStr = "IP 10.0.0.";
                       outStr.concat((String) WiFi.localIP()[3]);
-                      dispText(outStr ,  0, 1, outStr.length());
+                  #else
+                      outStr = "IP Offline";
                     #endif
+                  dispText(outStr ,  0, 1, outStr.length());
                   #if (USE_WEBSERVER > OFF)
                       //outStr = (String) (WiFi.localIP());
 
