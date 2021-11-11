@@ -569,14 +569,18 @@
         // start digital inputs
           #if (USE_DIG_INP > OFF)
               SOUT("config digSW Pins " );
+              #if (USE_WS2812_PWR_IN_SW > OFF)
+                  pinMode(PIN_WS2812_PWR_IN_SW, INPUT_PULLUP);
+                  SOUT(PIN_WS2812_PWR_IN_SW); SOUT(" ");
+                #endif
 
-                PIN_INP_SW_1,   NO_PIN,
+                //PIN_INP_SW_1,   NO_PIN,
 
-              for (uint8_t i = 0 ; i < USE_DIG_INP ; i++ )
-                {
-                  pinMode(PIN_DIG_INP[i], INPUT_PULLUP);
-                  SOUT(PIN_DIG_INP[i]); SOUT(" ");
-                }
+              //for (uint8_t i = 0 ; i < USE_DIG_INP ; i++ )
+                //{
+                  //pinMode(PIN_DIG_INP[i], INPUT_PULLUP);
+                  //SOUT(PIN_DIG_INP[i]); SOUT(" ");
+                //}
               SOUTLN();
             #endif
         // start poti inputs
@@ -1001,7 +1005,7 @@
                 #endif
 
               #if (USE_DIG_INP > OFF)
-                  getDIGIn();
+                  //getDIGIn();
                 #endif
 
               #if (USE_MCPWM > OFF)
@@ -1016,6 +1020,14 @@
                 {
                   ws2812T1.startT();
                   //SOUTLN(); SOUT(micros());
+                  if ( ws2812_pwr && (ws2812_bright < 255 ))
+                    {
+                      ws2812_bright = 255;
+                    }
+                  else if ( !ws2812_pwr && (ws2812_bright == 255 ))
+                    {
+                      ws2812_bright = (uint8_t) BRIGHT_2812_M1;
+                    }
                   matrix_1.scroll_matrix();
                   //SOUT(" "); SOUTLN(micros());
                   ws2812_cnt++;
@@ -1028,6 +1040,18 @@
                   ws2812LT.startT();
                   #ifdef USE_FAST_LED
                     //SOUT(" FASTLED ... ");
+                    // Change Brihtness when called
+                    if ( ws2812_pwr && (ws2812_bright < 255 ))
+                      {
+                        ws2812_bright = 255;
+                        FastLED.setBrightness(ws2812_bright);
+                      }
+                    else if ( !ws2812_pwr && (ws2812_bright == 255 ))
+                      {
+                        ws2812_bright = (uint8_t) BRIGHT_2812_L1;
+                        FastLED.setBrightness(ws2812_bright);
+                      }
+
                     //ChangePalettePeriodically(0);
                     idx2812L1 = idx2812L1 + 1; /* motion speed */
                     ws2812_cnt++;
@@ -1822,10 +1846,9 @@
       #if (USE_DIG_INP > OFF)
           void getDIGIn()
             {
-              for ( uint8_t i=0 ; i < USE_DIG_INP ; i++ )
-                {
-                  inpValDig[i] = digitalRead(PIN_DIG_INP[i]);
-                }
+              #if USE_WS2812_PWR_IN_SW
+                  ws2812_pwr = digitalRead(PIN_WS2812_PWR_IN_SW);
+                #endif
             }
         #endif
 

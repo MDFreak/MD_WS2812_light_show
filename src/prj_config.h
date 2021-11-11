@@ -527,7 +527,7 @@
             #define COLBMP_2812    8
             #define ROWBMP_2812    8
             #define UPD_2812_M1_MS 70
-            #define BRIGHT_2812_M1 15
+            #define BRIGHT_2812_M1 200
 
             #define ROW1_2812_M1   NEO_MATRIX_TOP
             #define COL1_2812_M1   NEO_MATRIX_LEFT
@@ -579,7 +579,7 @@
             #ifdef USE_FAST_LED
                 #define UPD_2812_L1_MS 10
                 #define LEDS_2812_L1   300
-                #define BRIGHT_2812_L1 25
+                #define BRIGHT_2812_L1 255
                 #define TYPE_2812_L1   WS2812B
                 #define COLORD_2812_L1 GRB
             #else
