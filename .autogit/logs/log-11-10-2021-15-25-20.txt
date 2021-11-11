@@ -1,0 +1,16 @@
+-------------------- Auto-Git Log --------------------
+		Thu Nov 11 2021 15:25:20 GMT+0100 (Mitteleuropäische Normalzeit)
+------------------------------------------------------
+
+Modified files:
+* src/prj_config.h
+* src/project.h
+
+
+Created files:
+
+
+Deleted files:
+
+
+Renamed files:
