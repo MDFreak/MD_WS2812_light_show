@@ -223,6 +223,9 @@
 
           #if (USE_WS2812_MATRIX_OUT > OFF)
               #define PIN_WS2812_M1      26
+              #if (USE_WS2812_PWR_IN_SW > OFF)
+                  #define PIN_WS2812_PWR_IN_SW 36
+                #endif
               #if (USE_WS2812_MATRIX_OUT > 1)
                   #define PIN_WS2812_M2  17
                 #endif
@@ -231,6 +234,9 @@
             #endif
 
           #if (USE_WS2812_LINE_OUT > OFF)
+              #if (USE_WS2812_PWR_IN_SW > OFF)
+                  #define PIN_WS2812_PWR_IN_SW 36
+                #endif
               #define PIN_WS2812_L1      26
                 //#define PIN_WS2812_L2      17
                 //#define PIN_WS2812_L3  x
@@ -883,13 +889,6 @@
             #ifndef USE_MEASURE_CYCLE
                 #define USE_MEASURE_CYCLE
               #endif
-            const uint8_t PIN_DIG_INP[8] =
-              {
-                PIN_INP_SW_1,   NO_PIN,
-                NO_PIN,         NO_PIN,
-                NO_PIN,         NO_PIN,
-                NO_PIN,         NO_PIN
-              };
             #define INP_SW_CTRL  0
           #endif
 

@@ -99,17 +99,19 @@
             msTimer ws2812MT   = msTimer(UPD_2812_M1_MS);
           #endif
         const char text2812[] = "Willkommen im Weltladen";
-        const scroll2812_t outM2812 =
+        static uint8_t      ws2812_bright = (uint8_t) BRIGHT_2812_M1;
+        static scroll2812_t outM2812 =
           {
-            { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 },
-            //{ (char*) text2812, COL16_RED_HIGH,    (uint8_t) BRIGHT_2812_M1 },
-            { (char*) text2812, (31 << 11) + (8 << 5) + 5,    (uint8_t) BRIGHT_2812_M1 },
-            { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, (uint8_t) BRIGHT_2812_M1 }
+            { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, ws2812_bright },
+            //{ (char*) text2812, COL16_RED_HIGH, ws2812_bright },
+            { (char*) text2812, (31 << 11) + (8 << 5) + 5, ws2812_bright },
+            { MD_BITMAP_SMILY,  COL16_YELLOW_HIGH, ws2812_bright }
           };
         static int16_t posM2812 = (int16_t) (COLPIX_2812_M1 + OFFBEG_2812_M1);
         unsigned long ws2812_alt = 0;
         uint32_t      ws2812_cnt = 0;
         uint32_t      ws2812_v   = 0;
+        bool          ws2812_pwr = false;
       #endif
 
     #if (USE_WS2812_LINE_OUT > OFF)
@@ -117,10 +119,12 @@
         #ifdef USE_FAST_LED
             //extern CRGBPalette16 myRedWhiteBluePalette;
             //extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
+            static uint8_t ws2812_bright = (uint8_t) BRIGHT_2812_L1;
             unsigned long ws2812_alt = 0;
             uint32_t      ws2812_cnt = 0;
             uint32_t      ws2812_v   = 0;
-            uint16_t      idx2812L1    = 0;
+            bool          ws2812_pwr = false;
+            uint16_t      idx2812L1  = 0;
             CRGBPalette16 curPalette1;
             TBlendType    curBlending1;
             CRGB leds1[LEDS_2812_L1];
@@ -488,7 +492,7 @@
               #ifdef USE_FAST_LED
                   dispStatus("start WS2812 Line");
                   FastLED.addLeds<TYPE_2812_L1, PIN_WS2812_L1, COLORD_2812_L1>(leds1, LEDS_2812_L1).setCorrection(TypicalLEDStrip);
-                  FastLED.setBrightness(BRIGHT_2812_L1);
+                  FastLED.setBrightness(ws2812_bright);
                   curPalette1 = RainbowStripeColors_p;
                   curBlending1 = NOBLEND;
                   #if (USE_WS2812_LINE_OUT > 1)
@@ -565,6 +569,9 @@
         // start digital inputs
           #if (USE_DIG_INP > OFF)
               SOUT("config digSW Pins " );
+
+                PIN_INP_SW_1,   NO_PIN,
+
               for (uint8_t i = 0 ; i < USE_DIG_INP ; i++ )
                 {
                   pinMode(PIN_DIG_INP[i], INPUT_PULLUP);
