@@ -33,7 +33,7 @@
         TwoWire i2c2 = TwoWire(1);
       #endif
 
-    #if ( USE_COL16_BLINK_OUT > 0 )
+    #if ( USE_LED_BLINK_OUT > 0 )
         msTimer ledT = msTimer(BLINKTIME_MS);
         bool SYS_LED_ON = FALSE;
       #endif
